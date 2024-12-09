@@ -21,3 +21,7 @@ header {
 .subtitle {
   @apply text-red uppercase tracking-wide font-medium text-lg;
 }
+
+.heartStar {
+  border-radius: 0px 28px 0px 28px;
+}
