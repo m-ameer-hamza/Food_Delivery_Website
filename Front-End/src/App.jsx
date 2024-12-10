@@ -5,15 +5,20 @@ import Crousal from "./components/Crousal";
 import NavBar from "./components/NavBar";
 import Testmonial from "./components/Testmonial";
 import Services from "./components/Services";
+import Footer from "./components/Footer";
+import MenuPage from "../Screens/MenuPage";
 const App = () => {
   return (
     <div className="container mx-auto">
-      <NavBar />
+      {/* <NavBar />
       <Banner />
       <Category />
       <Crousal />
       <Testmonial />
       <Services />
+      <Footer /> */}
+
+      <MenuPage />
     </div>
   );
 };
