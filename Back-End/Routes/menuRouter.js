@@ -6,6 +6,7 @@ import {
 
 const router = express.Router();
 
+router.get("/", getMenuItems);
 router.get("/allItems", getMenuItems).get("/popularItems", getPopularItems);
 
 export default router;
