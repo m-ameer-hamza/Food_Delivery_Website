@@ -1,11 +1,11 @@
 import express from "express";
 import {
   getMenuItems,
-  createMenuItem,
+  getPopularItems,
 } from "../Controllers/menuControllers.js";
 
 const router = express.Router();
 
-router.get("/", getMenuItems);
+router.get("/allItems", getMenuItems).get("/popularItems", getPopularItems);
 
 export default router;
