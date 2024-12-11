@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./Screens/Home/Home.jsx";
 import MenuPage from "./Screens/Menu/Menu.jsx";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryDevtools } from "react-query/devtools";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -16,7 +16,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
       {/* Ensure ReactQueryDevtools is inside QueryClientProvider */}
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 };
