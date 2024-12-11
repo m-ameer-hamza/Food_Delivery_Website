@@ -16,7 +16,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
       {/* Ensure ReactQueryDevtools is inside QueryClientProvider */}
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 };

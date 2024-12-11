@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import SliderCards from "./SliderCards.jsx";
-import MenuData from "../../Const/menuData.js";
+
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
@@ -85,20 +85,6 @@ function Crousal() {
     prevArrow: <CustomePrevArrow />,
   };
 
-  // useEffect(() => {
-  //   // Filter the popular menu from the menu data
-  //   //Convert it to api call so that it can be fetched from the backend
-  //   const popularMenuData = MenuData.filter(
-  //     (menu) => menu.category === "popular"
-  //   );
-
-  //   setPopularMenu(popularMenuData);
-  // }, []);
-
-  // useEffect(() => {
-
-  // }, []);
-
   return (
     <div className="section-container my-20 relative">
       {/* Crousal heading text text */}
@@ -136,7 +122,9 @@ function Crousal() {
         >
           {isLoading
             ? loadingArray.map((_, idx) => <LoadingCard key={idx} />)
-            : data?.map((item) => <SliderCards key={item._id} item={item} />)}
+            : data.data.map((item) => (
+                <SliderCards key={item._id} item={item} />
+              ))}
         </Slider>
       </div>
     </div>
