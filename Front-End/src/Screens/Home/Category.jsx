@@ -1,4 +1,4 @@
-import categoryData from "../../Const/CategoryData";
+import categoryData from "../../../Const/CategoryData";
 
 function Category() {
   return (

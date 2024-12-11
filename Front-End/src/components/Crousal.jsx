@@ -5,10 +5,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa6";
+import { useMenuApi } from "../../customHooks/useMenuApi.js";
+import { useQuery } from "react-query";
+import LoadingCard from "./LoadingCard.jsx";
 
 function Crousal() {
   const sliderRef = useRef(Slider);
-  const [popularMenu, setPopularMenu] = useState([]);
+  //const [popularMenu, setPopularMenu] = useState([]);
+
+  const { getPopularMenu } = useMenuApi();
+
+  const { isLoading, isError, data } = useQuery("popularItems", getPopularMenu);
+
+  const loadingArray = ["", "", "", "", "", ""];
 
   //handlers for arrow
   const CustomeNextArrow = (props) => {
@@ -76,15 +85,19 @@ function Crousal() {
     prevArrow: <CustomePrevArrow />,
   };
 
-  useEffect(() => {
-    // Filter the popular menu from the menu data
-    //Convert it to api call so that it can be fetched from the backend
-    const popularMenuData = MenuData.filter(
-      (menu) => menu.category === "popular"
-    );
+  // useEffect(() => {
+  //   // Filter the popular menu from the menu data
+  //   //Convert it to api call so that it can be fetched from the backend
+  //   const popularMenuData = MenuData.filter(
+  //     (menu) => menu.category === "popular"
+  //   );
 
-    setPopularMenu(popularMenuData);
-  }, []);
+  //   setPopularMenu(popularMenuData);
+  // }, []);
+
+  // useEffect(() => {
+
+  // }, []);
 
   return (
     <div className="section-container my-20 relative">
@@ -121,9 +134,9 @@ function Crousal() {
           {...settings}
           className="overflow-hidden mt-10 space-x-10"
         >
-          {popularMenu.map((item) => {
-            return <SliderCards key={item._id} item={item} />;
-          })}
+          {isLoading
+            ? loadingArray.map((_, idx) => <LoadingCard key={idx} />)
+            : data?.map((item) => <SliderCards key={item._id} item={item} />)}
         </Slider>
       </div>
     </div>
