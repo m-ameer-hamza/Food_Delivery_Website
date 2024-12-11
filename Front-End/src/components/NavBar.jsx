@@ -2,6 +2,7 @@ import { useState } from "react";
 import Menu from "./Menu";
 import { FaRegUser } from "react-icons/fa";
 import logo from "/logo.png";
+import { Link } from "react-router-dom";
 
 function NavBar() {
   const [isSticky, setSticky] = useState(false);
@@ -51,9 +52,9 @@ function NavBar() {
               <Menu />
             </ul>
           </div>
-          <a href="/">
+          <Link to="/">
             <img src={logo} />
-          </a>
+          </Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
@@ -104,10 +105,13 @@ function NavBar() {
             </div>
           </div>
           {/* Button */}
-          <a className="btn bg-green rounded-full px-8 text-white items-center gap-2">
+          <Link
+            to="/login"
+            className="btn bg-green rounded-full px-8 text-white items-center gap-2"
+          >
             <FaRegUser size={17} />
             Login
-          </a>
+          </Link>
         </div>
       </div>
     </header>

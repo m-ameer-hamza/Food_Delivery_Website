@@ -1,5 +1,6 @@
 import banner from "/images/home/banner.png";
 import bannerBase from "/images/home/b-food1.png";
+
 function Banner() {
   return (
     <div className="max-w-screen-2xl container mx-auto lg:px-24 px-2 bg-gradient-to-r from-[#FAFAFA] from-0% to-[#FCFCFC] to-100%">

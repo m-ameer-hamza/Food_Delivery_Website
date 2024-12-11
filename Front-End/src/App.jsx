@@ -1,25 +1,23 @@
-import "./Global.css";
-import Banner from "./components/Banner";
-import Category from "./components/Category";
-import Crousal from "./components/Crousal";
-import NavBar from "./components/NavBar";
-import Testmonial from "./components/Testmonial";
-import Services from "./components/Services";
-import Footer from "./components/Footer";
-import MenuPage from "../Screens/MenuPage";
-const App = () => {
-  return (
-    <div className="container mx-auto">
-      {/* <NavBar />
-      <Banner />
-      <Category />
-      <Crousal />
-      <Testmonial />
-      <Services />
-      <Footer /> */}
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import HomePage from "./Screens/Home/Home.jsx";
+import MenuPage from "./Screens/Menu/Menu.jsx";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
-      <MenuPage />
-    </div>
+const App = () => {
+  const queryClient = new QueryClient();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/menu" element={<MenuPage />} />
+        </Routes>
+      </BrowserRouter>
+      {/* Ensure ReactQueryDevtools is inside QueryClientProvider */}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 };
 

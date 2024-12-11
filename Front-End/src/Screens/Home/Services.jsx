@@ -1,4 +1,4 @@
-import ServiceList from "../../Const/ServicesData.js";
+import ServiceList from "../../../Const/ServicesData";
 function Services() {
   return (
     <div className="section-container">
