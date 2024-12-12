@@ -3,11 +3,14 @@ import { useQuery } from "react-query";
 import { useMenuApi } from "../../../customHooks/useMenuApi";
 import LoadingCard from "../../components/LoadingCard";
 import SliderCards from "../../components/SliderCards";
-function CatMenu({ catName }) {
+function CatMenu({ page, catName }) {
   const { getMenuByCategory } = useMenuApi();
-  const { isLoading, isError, data } = useQuery(["menuCat23", catName], () => {
-    return getMenuByCategory(catName);
-  });
+  const { isLoading, isError, data } = useQuery(
+    ["menuCat23", catName, page],
+    () => {
+      return getMenuByCategory(catName, page);
+    }
+  );
 
   useEffect(() => {
     if (data) {

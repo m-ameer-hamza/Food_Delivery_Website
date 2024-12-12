@@ -2,9 +2,11 @@ import { useQuery } from "react-query";
 import { useMenuApi } from "../../../customHooks/useMenuApi";
 import LoadingCard from "../../components/LoadingCard";
 import SliderCards from "../../components/SliderCards";
-function AllMenu() {
+function AllMenu({ page }) {
   const { getMenu } = useMenuApi();
-  const { isLoading, isError, data } = useQuery("menuItems", getMenu);
+  const { isLoading, isError, data } = useQuery(["menuItems", page], () => {
+    return getMenu(page);
+  });
   const loadingArray = ["", "", ""];
   return (
     <>

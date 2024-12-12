@@ -1,13 +1,36 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import AllMenu from "./AllMenu";
 import CatMenu from "./CatMenu";
 import { FaFilter } from "react-icons/fa";
+import { useMenuApi } from "../../../customHooks/useMenuApi.js";
 function Menu() {
   const [fechAll, setFechAll] = useState(true);
   const [fetchCat, setFetchCat] = useState(false);
   const [category, setCategory] = useState("");
+  const [allItemsPage, setAllItemsPage] = useState(1);
+  const [catItemsPage, setCatItemsPage] = useState(1);
 
+  const { getMenuItemsByCategoryPageCount, getMenuItemsPageCount } =
+    useMenuApi();
+  //pagination
+  const { isLoading, data } = useQuery("itemsCount", getMenuItemsPageCount, {
+    keepPreviousData: true,
+    enabled: fechAll,
+  });
+
+  const { isLoading: catLoading, data: catData } = useQuery(
+    ["itemsCount", category],
+    () => {
+      return getMenuItemsByCategoryPageCount(category);
+    },
+    {
+      keepPreviousData: true,
+      enabled: fetchCat,
+    }
+  );
+
+  //Sorting options
   const sortOptions = [];
   const sortHandler = (e) => {};
 
@@ -125,8 +148,41 @@ function Menu() {
 
         {/* Product cards */}
         <div className="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4 mt-8">
-          {fechAll ? <AllMenu /> : <CatMenu catName={category} />}
+          {fechAll ? (
+            <AllMenu page={allItemsPage} />
+          ) : (
+            <CatMenu page={catItemsPage} catName={category} />
+          )}
         </div>
+      </div>
+      {/* Pagination Section*/}
+      {/*Display dynamically rounded buttons according to length of data.pages with number as text*/}
+      <div className="flex justify-center items-center gap-4 mt-8">
+        {fechAll
+          ? Array.from({ length: data?.pages }, (_, i) => (
+              <button
+                key={i}
+                value={i + 1}
+                onClick={(e) => {
+                  setAllItemsPage(e.target.value);
+                }}
+                className="px-3 py-1 rounded-full border border-black"
+              >
+                {i + 1}
+              </button>
+            ))
+          : Array.from({ length: catData?.pages }, (_, i) => (
+              <button
+                key={i}
+                value={i + 1}
+                onClick={(e) => {
+                  setCatItemsPage(e.target.value);
+                }}
+                className="px-3 py-1 rounded-full border border-black"
+              >
+                {i + 1}
+              </button>
+            ))}
       </div>
     </div>
   );

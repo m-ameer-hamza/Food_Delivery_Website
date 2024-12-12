@@ -11,18 +11,18 @@ export const getMenuItems = async (req, res, next) => {
     const endIndex = page * limit;
 
     const results = await MenuItems.find().limit(limit).skip(startIndex).exec();
-    if (endIndex < (await MenuItems.countDocuments().exec())) {
-      results.next = {
-        page: page + 1,
-        limit: limit,
-      };
-    }
-    if (startIndex > 0) {
-      results.previous = {
-        page: page - 1,
-        limit: limit,
-      };
-    }
+    // if (endIndex < (await MenuItems.countDocuments().exec())) {
+    //   results.next = {
+    //     page: page + 1,
+    //     limit: limit,
+    //   };
+    // }
+    // if (startIndex > 0) {
+    //   results.previous = {
+    //     page: page - 1,
+    //     limit: limit,
+    //   };
+    // }
     res.status(200).json({
       message: "Success",
       data: results,
@@ -69,5 +69,37 @@ export const getItemsByCategory = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     next(new appError("Error in getting items by category", 400));
+  }
+};
+
+export const getMenuItemsCount = async (req, res, next) => {
+  try {
+    const count = await MenuItems.countDocuments();
+
+    res.status(200).json({
+      message: "Success",
+      count: count,
+      pages: Math.ceil(count / 9),
+    });
+  } catch (err) {
+    console.log(err);
+    next(new appError("Error in getting menu items count", 400));
+  }
+};
+
+export const getCategoryCount = async (req, res, next) => {
+  //Get the count of items in cateroy passed in the params
+  try {
+    const category = req.query.category;
+    console.log(category);
+    const count = await MenuItems.countDocuments({ category: category });
+    res.status(200).json({
+      message: "Success",
+      count: count,
+      pages: Math.ceil(count / 9),
+    });
+  } catch (err) {
+    console.log(err);
+    next(new appError("Error in getting category count", 400));
   }
 };

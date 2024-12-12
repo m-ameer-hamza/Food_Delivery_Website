@@ -7,21 +7,43 @@ export function useMenuApi() {
     return response.data;
   };
 
-  const getMenu = async (page = 1, limit = 9) => {
+  const getMenu = async (page) => {
     const response = await axios.get(`${BACK_END_URL}/menu/allItems`, {
       params: {
         page,
-        limit,
       },
     });
     return response.data;
   };
-  const getMenuByCategory = async (category) => {
-    const response = await axios.get(`${BACK_END_URL}/menu/${category}`);
+  const getMenuByCategory = async (category, page) => {
+    const response = await axios.get(`${BACK_END_URL}/menu/${category}`, {
+      params: {
+        page,
+      },
+    });
 
     console.log(response.data);
     return response.data;
   };
+  const getMenuItemsPageCount = async () => {
+    const response = await axios.get(`${BACK_END_URL}/menu/itemsCount`);
+    return response.data;
+  };
+  const getMenuItemsByCategoryPageCount = async (category) => {
+    const response = await axios.get(`${BACK_END_URL}/menu/categoryCount`, {
+      params: {
+        category: category,
+      },
+    });
 
-  return { getPopularMenu, getMenu, getMenuByCategory };
+    return response.data;
+  };
+
+  return {
+    getPopularMenu,
+    getMenu,
+    getMenuByCategory,
+    getMenuItemsPageCount,
+    getMenuItemsByCategoryPageCount,
+  };
 }
