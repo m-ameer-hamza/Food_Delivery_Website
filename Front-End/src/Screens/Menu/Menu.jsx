@@ -1,25 +1,27 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "react-query";
 import AllMenu from "./AllMenu";
 import CatMenu from "./CatMenu";
 import { FaFilter } from "react-icons/fa";
 import { useMenuApi } from "../../../customHooks/useMenuApi.js";
+
 function Menu() {
   const [fechAll, setFechAll] = useState(true);
   const [fetchCat, setFetchCat] = useState(false);
   const [category, setCategory] = useState("");
   const [allItemsPage, setAllItemsPage] = useState(1);
   const [catItemsPage, setCatItemsPage] = useState(1);
+  const [curPage, setCurPage] = useState(1);
 
   const { getMenuItemsByCategoryPageCount, getMenuItemsPageCount } =
     useMenuApi();
   //pagination
-  const { isLoading, data } = useQuery("itemsCount", getMenuItemsPageCount, {
+  const { data } = useQuery("itemsCount", getMenuItemsPageCount, {
     keepPreviousData: true,
     enabled: fechAll,
   });
 
-  const { isLoading: catLoading, data: catData } = useQuery(
+  const { data: catData } = useQuery(
     ["itemsCount", category],
     () => {
       return getMenuItemsByCategoryPageCount(category);
@@ -67,6 +69,7 @@ function Menu() {
               onClick={() => {
                 //setting fetch by category false
                 setFetchCat(false);
+
                 setFechAll(true);
               }}
               className={fechAll ? "active" : ""}
@@ -165,8 +168,11 @@ function Menu() {
                 value={i + 1}
                 onClick={(e) => {
                   setAllItemsPage(e.target.value);
+                  setCurPage(e.target.value);
                 }}
-                className="px-3 py-1 rounded-full border border-black"
+                className={`mx-1 px-3 py-1 rounded-full ${
+                  curPage == i + 1 ? " bg-green text-white" : "bg-gray-200"
+                }`}
               >
                 {i + 1}
               </button>
@@ -177,8 +183,11 @@ function Menu() {
                 value={i + 1}
                 onClick={(e) => {
                   setCatItemsPage(e.target.value);
+                  setCurPage(e.target.value);
                 }}
-                className="px-3 py-1 rounded-full border border-black"
+                className={`mx-1 px-3 py-1 rounded-full ${
+                  curPage == i + 1 ? " bg-green text-white" : "bg-gray-200"
+                }`}
               >
                 {i + 1}
               </button>
