@@ -11,7 +11,6 @@ import LoadingCard from "./LoadingCard.jsx";
 
 function Crousal() {
   const sliderRef = useRef(Slider);
-  //const [popularMenu, setPopularMenu] = useState([]);
 
   const { getPopularMenu } = useMenuApi();
 

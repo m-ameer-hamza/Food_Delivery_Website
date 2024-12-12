@@ -9,11 +9,8 @@ export const getMenuItems = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 9;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-    const results = {};
-    results.results = await MenuItems.find()
-      .limit(limit)
-      .skip(startIndex)
-      .exec();
+
+    const results = await MenuItems.find().limit(limit).skip(startIndex).exec();
     if (endIndex < (await MenuItems.countDocuments().exec())) {
       results.next = {
         page: page + 1,
@@ -48,5 +45,29 @@ export const getPopularItems = async (req, res, next) => {
   } catch (err) {
     console.log(err);
     next(new appError("Error in getting popular items", 400));
+  }
+};
+
+//get the items from the database by category category
+export const getItemsByCategory = async (req, res, next) => {
+  try {
+    const category = req.params.category;
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const results = await MenuItems.find({ category: category })
+      .limit(limit)
+      .skip(startIndex)
+      .exec();
+    res.status(200).json({
+      message: "Success",
+      data: results,
+    });
+  } catch (err) {
+    console.log(err);
+    next(new appError("Error in getting items by category", 400));
   }
 };
