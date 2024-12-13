@@ -3,6 +3,7 @@ import HomePage from "./Screens/Home/Home.jsx";
 import MenuPage from "./Screens/Menu/Menu.jsx";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import Layout from "./Layout.jsx";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -10,10 +11,12 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/menu" element={<MenuPage />} />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/menu" element={<MenuPage />} />
+          </Routes>
+        </Layout>
       </BrowserRouter>
       {/* Ensure ReactQueryDevtools is inside QueryClientProvider */}
       <ReactQueryDevtools initialIsOpen={false} />
