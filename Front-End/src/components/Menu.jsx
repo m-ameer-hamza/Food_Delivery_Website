@@ -1,28 +1,47 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 function Menu() {
+  const menuDropdownRef = useRef(null);
+  const servicesDropdownRef = useRef(null);
+
+  const closeDropdown = () => {
+    if (menuDropdownRef.current) {
+      menuDropdownRef.current.close();
+    }
+    if (servicesDropdownRef.current) {
+      servicesDropdownRef.current.close();
+    }
+  };
+
   return (
     <>
       <li>
         <Link to="/">Home</Link>
       </li>
       <li>
-        <details>
+        <details ref={menuDropdownRef}>
           <summary>Menu</summary>
           <ul className="p-2 w-52 ">
             <li className="hover:bg-green hover:text-white transition-all duration-200 hover:rounded-md">
-              <Link to="/menu">All Menu</Link>
+              <Link to="/menu" onClick={closeDropdown}>
+                All Menu
+              </Link>
             </li>
             <li className="hover:bg-green hover:text-white transition-all duration-200 hover:rounded-md">
-              <Link to="/">Fast Food</Link>
+              <Link to="/" onClick={closeDropdown}>
+                Fast Food
+              </Link>
             </li>
             <li className="hover:bg-green hover:text-white transition-all duration-200 hover:rounded-md">
-              <Link to="/">Deserts</Link>
+              <Link to="/" onClick={closeDropdown}>
+                Deserts
+              </Link>
             </li>
           </ul>
         </details>
       </li>
       <li>
-        <details>
+        <details ref={servicesDropdownRef}>
           <summary>Services</summary>
           <ul className="p-2">
             <li>
