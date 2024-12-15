@@ -1,8 +1,6 @@
 import { useRef } from "react";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
-import { IoLogoWhatsapp } from "react-icons/io";
 import LoginForm from "./LoginForm.jsx";
+import GoogleLogin from "./GoogleLogin.jsx";
 
 function Model() {
   const modalRef = useRef(null); // Create a ref for the modal
@@ -28,16 +26,8 @@ function Model() {
           <LoginForm handleModel={handleClose} />
 
           {/* Social Login Buttons */}
-          <div className="text-center space-x-10 mb-5">
-            <button className="btn btn-circle">
-              <FcGoogle size={40} />
-            </button>
-            <button className="btn btn-circle">
-              <FaFacebook color="blue" size={40} />
-            </button>
-            <button className="btn btn-circle">
-              <IoLogoWhatsapp color="green" size={40} />
-            </button>
+          <div className="flex items-center justify-center space-x-10 mb-2">
+            <GoogleLogin />
           </div>
         </div>
       </div>

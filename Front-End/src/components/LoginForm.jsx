@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+
 function LoginForm({ handleModel }) {
   const [emailError, setEmailError] = useState(true);
   const [passError, setPassError] = useState(true);
-  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
