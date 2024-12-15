@@ -35,7 +35,7 @@ export const googleSignIn = async (req, res) => {
       if (user) {
         res.status(200).json({
           status: "success",
-          data: {
+          user: {
             name: user.username,
             email: user.email,
             img: user.img,
@@ -52,7 +52,7 @@ export const googleSignIn = async (req, res) => {
         });
         res.status(201).json({
           status: "success",
-          data: {
+          user: {
             name: newUser.username,
             email: newUser.email,
             img: newUser.img,

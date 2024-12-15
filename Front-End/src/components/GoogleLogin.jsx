@@ -1,10 +1,34 @@
+import { useState, useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { CLIENT_ID_GOOGLE_SIGN_IN } from "../../Global.js";
+import { useQuery } from "react-query";
+import { useUserApi } from "../../customHooks/useUserApi.js";
 
 const GoogleSignIn = () => {
+  const { googleSignIn } = useUserApi();
+  const [token, setToken] = useState(null);
+  const [queryEnabled, setQueryEnabled] = useState(false);
+
+  const { data, isError, isLoading } = useQuery(
+    ["googleSignIn", token],
+    () => {
+      return googleSignIn(token);
+    },
+    {
+      enabled: queryEnabled,
+    }
+  );
+
+  useEffect(() => {
+    if (data) {
+      console.log("Fetched data:", data);
+    }
+  }, [data]);
+
   const handleSuccess = (response) => {
-    console.log("Login Success!", response);
+    setToken(response.credential);
+    setQueryEnabled(true);
   };
 
   const handleError = () => {

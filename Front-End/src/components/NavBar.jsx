@@ -4,9 +4,12 @@ import { FaRegUser } from "react-icons/fa";
 import logo from "/logo.png";
 import { Link } from "react-router-dom";
 import Model from "./Model";
+import { useSelector } from "react-redux";
+import store from "../../Redux/store";
 
 function NavBar() {
   const [isSticky, setSticky] = useState(false);
+  const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -106,15 +109,23 @@ function NavBar() {
             </div>
           </div>
           {/* Login Button */}
-          <button
-            onClick={() => document.getElementById("my_modal_5").showModal()}
-            className="btn bg-green rounded-full px-8 text-white items-center gap-2"
-          >
-            <FaRegUser size={17} />
-            Login
-          </button>
-          {/* Login Model */}
-          <Model />
+          {isAuthenticated ? (
+            <></>
+          ) : (
+            <>
+              <button
+                onClick={() =>
+                  document.getElementById("my_modal_5").showModal()
+                }
+                className="btn bg-green rounded-full px-8 text-white items-center gap-2"
+              >
+                <FaRegUser size={17} />
+                Login
+              </button>
+              {/* Login Model */}
+              <Model />
+            </>
+          )}
         </div>
       </div>
     </header>
