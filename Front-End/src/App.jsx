@@ -7,6 +7,8 @@ import Layout from "./Layout.jsx";
 import SignUp from "./Screens/SignUp/SignUp.jsx";
 import { Provider } from "react-redux";
 import store from "../Redux/store.js";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -27,6 +29,7 @@ const App = () => {
         {/* Ensure ReactQueryDevtools is inside QueryClientProvider */}
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
+      <ToastContainer />
     </Provider>
   );
 };

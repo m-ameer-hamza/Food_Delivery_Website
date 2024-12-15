@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Menu from "./Menu";
 import { FaRegUser } from "react-icons/fa";
 import logo from "/logo.png";
@@ -6,10 +6,17 @@ import { Link } from "react-router-dom";
 import Model from "./Model";
 import { useSelector } from "react-redux";
 import store from "../../Redux/store";
+import Profile from "./Profile";
 
 function NavBar() {
   const [isSticky, setSticky] = useState(false);
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
+
+  const userData = useSelector((store) => store.user);
+
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -110,7 +117,7 @@ function NavBar() {
           </div>
           {/* Login Button */}
           {isAuthenticated ? (
-            <></>
+            <Profile user={userData} />
           ) : (
             <>
               <button
