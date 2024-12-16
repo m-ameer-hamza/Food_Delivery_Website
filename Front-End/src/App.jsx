@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import store from "../Redux/store.js";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import EditProfile from "./Screens/Profile/EditProfile.jsx";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/menu" element={<MenuPage />} />
               <Route path="/signup" element={<SignUp />} />
+              <Route path="/userProfile" element={<EditProfile />} />
               <Route path="*" element={<h1>Not Found</h1>} />
             </Routes>
           </Layout>

@@ -52,12 +52,11 @@ const GoogleSignIn = () => {
   };
 
   const handleError = () => {
+    toast.error("Google Sign In Failed!");
     console.error("Login Failed!");
   };
 
-  return isLoading ? (
-    <p>LoadingCard....</p>
-  ) : (
+  return (
     <GoogleOAuthProvider clientId={CLIENT_ID_GOOGLE_SIGN_IN}>
       <GoogleLogin
         onSuccess={handleSuccess}
