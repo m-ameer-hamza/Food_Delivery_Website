@@ -5,14 +5,17 @@ import logo from "/logo.png";
 import { Link } from "react-router-dom";
 import Model from "./Model";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import Profile from "./Profile";
 
 function NavBar() {
   const [isSticky, setSticky] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
 
   const userData = useSelector((store) => store.user);
+  const navigate = useNavigate();
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -21,6 +24,17 @@ function NavBar() {
     } else {
       setSticky(false);
     }
+  };
+
+  // Toggle dropdown visibility
+  const handleToggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  // Navigate to cart and close dropdown
+  const toggleCartMenu = () => {
+    setIsDropdownOpen(false); // Close the dropdown
+    navigate("/cart"); // Navigate to the cart page
   };
 
   window.addEventListener("scroll", handleScroll);
@@ -73,10 +87,12 @@ function NavBar() {
         <div className="navbar-end">
           {/* Cart */}
           <div className="dropdown dropdown-end mr-3 hidden md:flex">
+            {/* Cart Icon */}
             <div
               tabIndex={0}
               role="button"
               className="btn btn-ghost btn-circle"
+              onClick={handleToggleDropdown} // Toggle dropdown on icon click
             >
               <div className="indicator">
                 <svg
@@ -96,20 +112,27 @@ function NavBar() {
                 <span className="badge badge-sm indicator-item">8</span>
               </div>
             </div>
-            <div
-              tabIndex={0}
-              className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow"
-            >
-              <div className="card-body">
-                <span className="text-lg font-bold">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
-                <div className="card-actions">
-                  <button className="btn bg-green text-white btn-block">
-                    View cart
-                  </button>
+
+            {/* Dropdown Content */}
+            {isDropdownOpen && (
+              <div
+                tabIndex={0}
+                className="card card-compact dropdown-content bg-base-100 z-[1] mt-12 w-52 shadow"
+              >
+                <div className="card-body">
+                  <span className="text-lg font-bold">8 Items</span>
+                  <span className="text-info">Subtotal: $999</span>
+                  <div className="card-actions">
+                    <button
+                      onClick={toggleCartMenu} // Navigate and close dropdown
+                      className="btn bg-green text-white btn-block"
+                    >
+                      View cart
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
           {/* Login Button */}
           {isAuthenticated ? (
