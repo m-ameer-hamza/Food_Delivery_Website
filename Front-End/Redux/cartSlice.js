@@ -1,6 +1,7 @@
 const initialStateCart = {
   cartArray: [],
   total: 0,
+  totalItems: 0,
 };
 
 const addToCart = "ADD_TO_CART";
@@ -27,7 +28,11 @@ export const cartReducer = (state = initialStateCart, action) => {
       } else {
         // If the product doesn't exist, add it with quantity 1
         const updatedCart = [...state.cartArray, { ...product, quantity: 1 }];
-        return { ...state, cartArray: updatedCart };
+        return {
+          ...state,
+          cartArray: updatedCart,
+          totalItems: state.totalItems + 1,
+        };
       }
     }
     case removeFromCart: {
@@ -37,26 +42,38 @@ export const cartReducer = (state = initialStateCart, action) => {
 
       if (index !== -1) {
         const product = state.cartArray[index];
-        // Decrease the quantity or remove the item if quantity is 1
         let updatedCart;
+        let updatedTotalItems = state.totalItems;
+
+        // Decrease the quantity or remove the item if quantity is 1
         if (product.quantity > 1) {
           updatedCart = state.cartArray.map((item) =>
             item._id === productId
               ? { ...item, quantity: item.quantity - 1 }
               : item
           );
+          // totalItems remains the same because the product is not removed completely
         } else {
           updatedCart = state.cartArray.filter(
             (item) => item._id !== productId
           );
+          updatedTotalItems -= 1; // Decrease totalItems because the product is removed
         }
-        return { ...state, cartArray: updatedCart };
+
+        return {
+          ...state,
+          cartArray: updatedCart,
+          totalItems: updatedTotalItems,
+        };
       }
       return state;
     }
+
     case clearCart: {
       return initialStateCart;
     }
+    default:
+      return state;
   }
 };
 

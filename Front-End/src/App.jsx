@@ -6,11 +6,13 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import Layout from "./Layout.jsx";
 import SignUp from "./Screens/SignUp/SignUp.jsx";
 import { Provider } from "react-redux";
-import store from "../Redux/store.js";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProfile from "./Screens/Profile/EditProfile.jsx";
 import Cart from "./Screens/Cart/Cart.jsx";
+import { PersistGate } from "redux-persist/integration/react";
+import store, { persistor } from "../Redux/store.js";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -19,16 +21,18 @@ const App = () => {
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/menu" element={<MenuPage />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/userProfile" element={<EditProfile />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="*" element={<h1>Not Found</h1>} />
-            </Routes>
-          </Layout>
+          <PersistGate loading={<p>Loading.....</p>} persistor={persistor}>
+            <Layout>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/menu" element={<MenuPage />} />
+                <Route path="/signup" element={<SignUp />} />
+                <Route path="/userProfile" element={<EditProfile />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="*" element={<h1>Not Found</h1>} />
+              </Routes>
+            </Layout>
+          </PersistGate>
         </BrowserRouter>
         {/* Ensure ReactQueryDevtools is inside QueryClientProvider */}
         <ReactQueryDevtools initialIsOpen={false} />

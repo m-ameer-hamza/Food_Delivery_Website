@@ -1,10 +1,21 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../Redux/cartSlice.js";
+import Swal from "sweetalert2";
 
 function SliderCards({ id, item }) {
   const [isFilled, setIsFilled] = useState(false);
+  const dispatch = useDispatch();
 
+  const addCartBtn = (item) => {
+    dispatch(addItem(item));
+    Swal.fire({
+      title: "Success!",
+      text: "Your item is add to cart!",
+      icon: "success",
+    });
+  };
   return (
     <div
       key={id}
@@ -40,7 +51,14 @@ function SliderCards({ id, item }) {
             <span className="text-sm text-red">Rs. </span>
             {item.price}
           </h5>
-          <button className="btn bg-green text-white">Add Cart</button>
+          <button
+            onClick={() => {
+              addCartBtn(item);
+            }}
+            className="btn bg-green text-white"
+          >
+            Add Cart
+          </button>
         </div>
       </div>
     </div>
