@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Menu from "./Menu";
 import { FaRegUser } from "react-icons/fa";
 import logo from "/logo.png";
 import { Link } from "react-router-dom";
 import Model from "./Model";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { calcTotalPrice } from "../../Redux/cartSlice";
 
 import Profile from "./Profile";
 
@@ -15,9 +16,14 @@ function NavBar() {
   const isAuthenticated = useSelector((store) => store.auth.isAuthenticated);
 
   const cart = useSelector((store) => store.cart);
+  const dispatch = useDispatch();
 
   const userData = useSelector((store) => store.user);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(calcTotalPrice());
+  }, [cart.cartArray, dispatch]);
 
   const handleScroll = () => {
     const offset = window.scrollY;

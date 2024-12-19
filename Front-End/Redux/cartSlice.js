@@ -7,6 +7,9 @@ const initialStateCart = {
 const addToCart = "ADD_TO_CART";
 const removeFromCart = "REMOVE_FROM_CART";
 const clearCart = "CLEAR_CART";
+const deleteItem = "DELETE_ITEM";
+
+const calcTotal = "CALC_TOTAL";
 
 export const cartReducer = (state = initialStateCart, action) => {
   switch (action.type) {
@@ -72,24 +75,63 @@ export const cartReducer = (state = initialStateCart, action) => {
     case clearCart: {
       return initialStateCart;
     }
+
+    case deleteItem: {
+      const productId = action.payload;
+      // Filter out the product from the cart
+      const updatedCart = state.cartArray.filter(
+        (item) => item._id !== productId
+      );
+
+      // Decrease totalItems count by 1 since one item is completely removed
+      const updatedTotalItems = state.totalItems - 1;
+
+      return {
+        ...state,
+        cartArray: updatedCart,
+        totalItems: updatedTotalItems,
+      };
+    }
+    case calcTotal: {
+      const total = state.cartArray.reduce((acc, item) => {
+        return acc + item.price * item.quantity;
+      }, 0);
+
+      return {
+        ...state,
+        total: Math.round(total),
+      };
+    }
+
     default:
       return state;
   }
 };
 
-export const addItem = (item) => {
+export const incItemQuantity = (item) => {
   return {
     type: addToCart,
     payload: item,
   };
 };
-export const removeItem = (itemId) => {
+export const decItemQuantity = (itemId) => {
   return {
     type: removeFromCart,
     payload: itemId,
   };
 };
-export const clearItem = () => {
+export const removeItem = (itemId) => {
+  return {
+    type: deleteItem,
+    payload: itemId,
+  };
+};
+export const calcTotalPrice = () => {
+  return {
+    type: calcTotal,
+  };
+};
+export const cartClear = () => {
   return {
     type: clearCart,
   };

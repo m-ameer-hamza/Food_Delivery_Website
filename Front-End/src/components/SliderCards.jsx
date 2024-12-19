@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { addItem } from "../../Redux/cartSlice.js";
+import { incItemQuantity } from "../../Redux/cartSlice.js";
 import Swal from "sweetalert2";
 
 function SliderCards({ id, item }) {
@@ -9,7 +9,7 @@ function SliderCards({ id, item }) {
   const dispatch = useDispatch();
 
   const addCartBtn = (item) => {
-    dispatch(addItem(item));
+    dispatch(incItemQuantity(item));
     Swal.fire({
       title: "Success!",
       text: "Your item is add to cart!",

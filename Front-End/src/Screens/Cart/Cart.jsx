@@ -1,14 +1,9 @@
 import { useSelector } from "react-redux";
 import CartTable from "./CartTable";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 
 function Cart() {
   const cartItms = useSelector((state) => state.cart.totalItems);
-
-  useEffect(() => {
-    console.log("Cart Items: ", cartItms);
-  }, [cartItms]);
 
   return (
     <div className="min-h-screen">
