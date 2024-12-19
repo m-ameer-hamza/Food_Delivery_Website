@@ -19,9 +19,16 @@ export default {
           "0%": { width: "0%" },
           "100%": { width: "100%" },
         },
+        shake: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "25%": { transform: "translateX(-4px)" },
+          "50%": { transform: "translateX(4px)" },
+          "75%": { transform: "translateX(-4px)" },
+        },
       },
       animation: {
         underline: "underline 0.5s ease-in-out forwards",
+        shake: "shake 0.5s ease-in-out",
       },
     },
   },
