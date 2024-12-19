@@ -1,6 +1,7 @@
 import { FaTrashAlt, FaMinus } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
 import { useSelector } from "react-redux";
+import Swal from "sweetalert2";
 import {
   incItemQuantity,
   decItemQuantity,
@@ -25,7 +26,24 @@ function CartTable() {
 
   //Remove Item in Redux when trash icon clicked
   const removeItemHandler = (item) => {
-    dispatch(removeItem(item._id));
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Item has been delted",
+          icon: "success",
+        });
+        dispatch(removeItem(item._id));
+      }
+    });
   };
   const priceCalc = (item) => {
     return Math.round(item.price * item.quantity);
