@@ -25,6 +25,14 @@ function NavBar() {
     dispatch(calcTotalPrice());
   }, [cart.cartArray, dispatch]);
 
+  useEffect(() => {
+    console.log("User is: ", isAuthenticated);
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    console.log("User Data is:", userData);
+  }, [userData]);
+
   const handleScroll = () => {
     const offset = window.scrollY;
     if (offset > 0) {

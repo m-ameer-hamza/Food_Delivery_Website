@@ -5,6 +5,7 @@ import { LuClipboardList } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../Redux/userSlice.js";
+import { cartClear } from "../../Redux/cartSlice.js";
 import { logout } from "../../Redux/authSlice.js";
 import { useNavigate } from "react-router-dom";
 function Profile({ user }) {
@@ -18,6 +19,13 @@ function Profile({ user }) {
   const closeDropDown = () => {
     navigate("/userProfile");
     setIsOpen(false);
+  };
+
+  const handleLogout = () => {
+    dispatch(clearUser());
+    dispatch(logout());
+    dispatch(cartClear());
+    // navigate("/");
   };
 
   return (
@@ -56,11 +64,9 @@ function Profile({ user }) {
             <li>
               <div className="flex items-center gap-5 justify-around">
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent parent interference
-                    console.log("Logout");
-                    dispatch(logout());
-                    dispatch(clearUser());
+                  onClick={() => {
+                    console.log("LogOut Button Clicked");
+                    handleLogout();
                   }}
                 >
                   <span className="text-lg">Logout</span>

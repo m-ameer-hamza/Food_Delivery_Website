@@ -1,6 +1,7 @@
 import { FaTrashAlt, FaMinus } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
 import { useSelector } from "react-redux";
+
 import Swal from "sweetalert2";
 import {
   incItemQuantity,
@@ -12,6 +13,7 @@ import { useDispatch } from "react-redux";
 function CartTable() {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
+  const isLogin = useSelector((state) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
 
   //Increase Item in Redux when plus clicked
@@ -129,32 +131,39 @@ function CartTable() {
         </table>
       </div>
       {/* Customer Details */}
-      <div className="my-16 flex flex-col md:flex-row gap-9 justify-between">
-        <div className="md:w-1/3 space-y-5">
-          <h3 className="font-medium">Customer Details</h3>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
-        </div>
-        <div className="md:w-1/3 space-y-5 flex flex-col">
-          <h3 className="font-medium">Delivery Details</h3>
-          <p>Address: Ameer Hamza</p>
-          <p>Phone: Ameer Hamza@gmail.com</p>
-          <p>Payment Mode: Online</p>
-          <button className="btn btn-green w-1/2 self-center">
-            Change Address
-          </button>
-        </div>
-        <div className="md:w-1/3 space-y-5 flex flex-col">
-          <h3 className="font-medium">Shopping Details</h3>
-          <p className="">Total Items: {cart.totalItems}</p>
-          <p className="">Delivery Charges: 100</p>
-          <p className="text-lg font-bold text-rose-500">
-            Total Payable Amount: Rs. {cart.total + 100}
-          </p>
 
-          <button className="btn bg-green w-1/2 self-end">Checkout</button>
+      {isLogin ? (
+        <div className="my-16 flex flex-col md:flex-row gap-9 justify-between">
+          <div className="md:w-1/3 space-y-5">
+            <h3 className="font-medium">Customer Details</h3>
+            <p>Name: {user.name}</p>
+            <p>Email: {user.email}</p>
+          </div>
+          <div className="md:w-1/3 space-y-5 flex flex-col">
+            <h3 className="font-medium">Delivery Details</h3>
+            <p>Address: Ameer Hamza</p>
+            <p>Phone: Ameer Hamza@gmail.com</p>
+            <p>Payment Mode: Online</p>
+            <button className="btn btn-green w-1/2 self-center">
+              Change Address
+            </button>
+          </div>
+          <div className="md:w-1/3 space-y-5 flex flex-col">
+            <h3 className="font-medium">Shopping Details</h3>
+            <p className="">Total Items: {cart.totalItems}</p>
+            <p className="">Delivery Charges: 100</p>
+            <p className="text-lg font-bold text-rose-500">
+              Total Payable Amount: Rs. {cart.total + 100}
+            </p>
+
+            <button className="btn bg-green w-1/2 self-end">Checkout</button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex justify-center items-center h-32">
+          <span className="font-bold text-lg">Login to View Order Summery</span>
+        </div>
+      )}
     </>
   );
 }
