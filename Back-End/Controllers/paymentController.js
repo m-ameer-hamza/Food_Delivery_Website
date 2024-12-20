@@ -14,37 +14,6 @@ dotenv.config({ path: path.resolve(__dirname, "../config.env") });
 //create a new stripe instance
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// export async function createPaymentIntent(req, res, next) {
-//   try {
-//     const { amount, currency } = req.body;
-//     //check if amount and currency are provided
-//     if (!amount || !currency) {
-//       return next(new appError("Amount and currency are required", 400));
-//     }
-//     const amountInCents = await convertToUSDInCents(amount, currency);
-
-//     const paymentIntent = await stripe.paymentIntents.create({
-//       amount: amountInCents,
-//       currency: "usd",
-//     });
-
-//     //check if client secret is created
-//     if (!paymentIntent.client_secret) {
-//       return next(new appError("Error setting up the card", 503));
-//     }
-
-//     console.log("Payment intent created", paymentIntent);
-//     res.status(200).json({
-//       status: "success",
-//       message: "Payment intent created",
-//       paymentIntent,
-//     });
-//   } catch (error) {
-//     console.log("Error creating payment intent", error);
-//     next(new appError("Error creating payment intent", 500));
-//   }
-// }
-
 export async function stripePayment(req, res, next) {
   try {
     const { items } = req.body; // Receive the cart items from the client

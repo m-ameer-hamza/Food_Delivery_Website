@@ -23,17 +23,19 @@ function CartTable() {
   const { handlePayment } = usePaymentApi();
 
   const { isLoading, data, isError } = useQuery(
-    ["payement", cart], // Pass the cart items to the query
+    ["payement", cart],
     () => {
       return handlePayment([
         ...cart.cartArray,
-        { name: "Delivery Charges", price: 100, quantity: 1 },
+        { name: "Delivery Charges", price: 100, quantity: 1 }, //adding delivery charges
       ]);
     },
     {
       enabled: isCheckout,
     }
   );
+
+  //if url is received from the server then redirect to the stripe checkout page
   useEffect(() => {
     if (data) {
       const { url } = data;
@@ -43,6 +45,7 @@ function CartTable() {
     }
   }, [data]);
 
+  //Show error message if isError is true
   useEffect(() => {
     if (isError) {
       Swal.fire({
