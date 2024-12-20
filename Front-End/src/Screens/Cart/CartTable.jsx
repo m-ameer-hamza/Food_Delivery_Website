@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaTrashAlt, FaMinus } from "react-icons/fa";
 import { TiPlus } from "react-icons/ti";
 import { useSelector } from "react-redux";
-import { useQuery } from "react-query";
-import { usePaymentApi } from "../../../customHooks/paymentApi.js";
 
 import Swal from "sweetalert2";
 import {
@@ -13,28 +11,49 @@ import {
 } from "../../../Redux/cartSlice.js";
 import { useDispatch } from "react-redux";
 import Loading from "../../components/Loading.jsx";
+import { useQuery } from "react-query";
+import { usePaymentApi } from "../../../customHooks/paymentApi.js";
 
 function CartTable() {
   const cart = useSelector((state) => state.cart);
   const user = useSelector((state) => state.user);
   const isLogin = useSelector((state) => state.auth.isAuthenticated);
 
-  const dispatch = useDispatch();
+  const [isCheckout, setIsCheckout] = useState(false);
   const { handlePayment } = usePaymentApi();
 
-  //State to handle checkout. When it is true the query will execute
-  const [isCheckout, setIsCheckout] = useState(false);
-
-  //query to initiate payment
-  const { isError, data, isLoading } = useQuery(
-    ["payment", cart.total + 100, "PKR"],
+  const { isLoading, data, isError } = useQuery(
+    ["payement", cart], // Pass the cart items to the query
     () => {
-      return handlePayment(cart.total + 100, "PKR");
+      return handlePayment([
+        ...cart.cartArray,
+        { name: "Delivery Charges", price: 100, quantity: 1 },
+      ]);
     },
     {
       enabled: isCheckout,
     }
   );
+  useEffect(() => {
+    if (data) {
+      const { url } = data;
+      window.location.href = url; // Redirect to Stripe checkout page
+    } else {
+      console.log("Error in itializing payment");
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (isError) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!",
+      });
+    }
+  }, [isError]);
+
+  const dispatch = useDispatch();
 
   //Increase Item in Redux when plus clicked
   const incItemHandler = (item) => {
@@ -70,24 +89,6 @@ function CartTable() {
   const priceCalc = (item) => {
     return Math.round(item.price * item.quantity);
   };
-
-  //This will show error if there is error in payment_initiate query
-  useEffect(() => {
-    if (isError) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Something went wrong! Please try again",
-      });
-    }
-  }, [isError]);
-
-  //if payment_intent is created successfull
-  useEffect(() => {
-    if (data) {
-      console.log("Payment Data:", data);
-    }
-  }, [data]);
 
   return (
     <div>

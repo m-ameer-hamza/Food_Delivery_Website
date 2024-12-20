@@ -2,12 +2,11 @@ import axios from "axios";
 import { BACK_END_URL } from "../Global";
 
 export function usePaymentApi() {
-  const handlePayment = async (amount, curr) => {
+  const handlePayment = async (cart) => {
     const response = await axios.post(`${BACK_END_URL}/payment`, {
-      amount: amount,
-      currency: curr,
+      items: cart,
     });
-    console.log(response.data);
+    console.log("Payment response", response.data);
     return response.data;
   };
 
