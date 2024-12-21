@@ -6,14 +6,14 @@ import { ReactQueryDevtools } from "react-query/devtools";
 import Layout from "./Layout.jsx";
 import SignUp from "./Screens/SignUp/SignUp.jsx";
 import { Provider } from "react-redux";
-
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EditProfile from "./Screens/Profile/EditProfile.jsx";
 import Cart from "./Screens/Cart/Cart.jsx";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "../Redux/store.js";
-import PaymentSuccess from "./Screens/Checkout/Success.jsx";
+import PaymentSuccess from "./Screens/Checkout/PaymentSuccess.jsx";
+import PaymentFailure from "./Screens/Checkout/PaymentFaliure.jsx";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -25,14 +25,14 @@ const App = () => {
           <PersistGate loading={<p>Loading.....</p>} persistor={persistor}>
             <Layout>
               <Routes>
-                <Route path="/" element={<PaymentSuccess />} />
-                {/* <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<HomePage />} />
                 <Route path="/menu" element={<MenuPage />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/userProfile" element={<EditProfile />} />
                 <Route path="/cart" element={<Cart />} />
-              
-                <Route path="*" element={<h1>Not Found</h1>} /> */}
+                <Route path="/success" element={<PaymentSuccess />} />
+                <Route path="/cancel" element={<PaymentFailure />} />
+                <Route path="*" element={<h1>Not Found</h1>} />
               </Routes>
             </Layout>
           </PersistGate>

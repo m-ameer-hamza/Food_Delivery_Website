@@ -38,8 +38,8 @@ export async function stripePayment(req, res, next) {
       payment_method_types: ["card"], // Accept card payments
       mode: "payment", // Payment mode: 'payment' for one-time payments
       line_items,
-      success_url: "http://localhost:3000/success", // Redirect on successful payment
-      cancel_url: "http://localhost:3000/cancel", // Redirect if payment is canceled
+      success_url: "http://localhost:5173/success", // Redirect on successful payment
+      cancel_url: "http://localhost:5173/cancel", // Redirect if payment is canceled
     });
 
     // Respond with the session URL
