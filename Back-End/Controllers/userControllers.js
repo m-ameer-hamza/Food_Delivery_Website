@@ -65,3 +65,31 @@ export const googleSignIn = async (req, res) => {
     }
   }
 };
+
+export const createUser = async (req, res, next) => {
+  try {
+    const { username, email, password } = req.body;
+    //check if user already exists
+    const user = await User.findOne({ email });
+    if (user) {
+      res.status(409).json({
+        message: "User already exists",
+      });
+    }
+    //create a new user
+    const newUser = await User.create({
+      username,
+      email,
+      password,
+    });
+    res.status(201).json({
+      message: "User created successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal server error",
+      error,
+    });
+  }
+};

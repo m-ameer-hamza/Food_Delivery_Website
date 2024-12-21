@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
   },
   img: {
     type: String,
-    defaut: "",
+    default: "/user-images/user-avatar.png",
   },
   otpCodeExpires: {
     type: Date,

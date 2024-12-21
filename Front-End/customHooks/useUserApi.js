@@ -8,8 +8,17 @@ export function useUserApi() {
     });
     return response.data;
   };
+  const emailSignUp = async (email, password, username) => {
+    const response = await axios.post(`${BACK_END_URL}/user/signUpUser`, {
+      email,
+      password,
+      username,
+    });
+    return response.data;
+  };
 
   return {
     googleSignIn,
+    emailSignUp,
   };
 }

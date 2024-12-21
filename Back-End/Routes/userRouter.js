@@ -1,8 +1,8 @@
 import express from "express";
-import { googleSignIn } from "../Controllers/userControllers.js";
+import { googleSignIn, createUser } from "../Controllers/userControllers.js";
 
 const router = express.Router();
 
-router.post("/googleSignIn", googleSignIn);
+router.post("/googleSignIn", googleSignIn).post("/signUpUser", createUser);
 
 export default router;
