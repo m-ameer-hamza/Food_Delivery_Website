@@ -13,6 +13,7 @@ import EditProfile from "./Screens/Profile/EditProfile.jsx";
 import Cart from "./Screens/Cart/Cart.jsx";
 import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "../Redux/store.js";
+import PaymentSuccess from "./Screens/Checkout/Success.jsx";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -24,12 +25,14 @@ const App = () => {
           <PersistGate loading={<p>Loading.....</p>} persistor={persistor}>
             <Layout>
               <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/" element={<PaymentSuccess />} />
+                {/* <Route path="/" element={<HomePage />} />
                 <Route path="/menu" element={<MenuPage />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/userProfile" element={<EditProfile />} />
                 <Route path="/cart" element={<Cart />} />
-                <Route path="*" element={<h1>Not Found</h1>} />
+              
+                <Route path="*" element={<h1>Not Found</h1>} /> */}
               </Routes>
             </Layout>
           </PersistGate>
