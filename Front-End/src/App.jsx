@@ -24,6 +24,10 @@ const App = () => {
         <BrowserRouter>
           <PersistGate loading={<p>Loading.....</p>} persistor={persistor}>
             <Layout>
+              <ToastContainer
+                position="top-right"
+                style={{ marginTop: "2rem", zIndex: 1000 }}
+              />
               <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/menu" element={<MenuPage />} />
@@ -37,10 +41,8 @@ const App = () => {
             </Layout>
           </PersistGate>
         </BrowserRouter>
-        {/* Ensure ReactQueryDevtools is inside QueryClientProvider */}
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
-      <ToastContainer />
     </Provider>
   );
 };

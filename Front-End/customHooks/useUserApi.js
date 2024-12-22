@@ -14,7 +14,7 @@ export function useUserApi() {
       password,
       username,
     });
-    return response.data;
+    return response;
   };
 
   return {
