@@ -16,9 +16,19 @@ export function useUserApi() {
     });
     return response;
   };
+  const emailLogin = async (email, password) => {
+    const response = await axios.get(`${BACK_END_URL}/user/loginUser`, {
+      params: {
+        email,
+        password,
+      },
+    });
+    return response;
+  };
 
   return {
     googleSignIn,
     emailSignUp,
+    emailLogin,
   };
 }

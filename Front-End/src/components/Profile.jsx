@@ -8,6 +8,7 @@ import { clearUser } from "../../Redux/userSlice.js";
 import { cartClear } from "../../Redux/cartSlice.js";
 import { logout } from "../../Redux/authSlice.js";
 import { useNavigate } from "react-router-dom";
+import { BACK_END_URL } from "../../Global.js";
 function Profile({ user }) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +28,7 @@ function Profile({ user }) {
     dispatch(cartClear());
     // navigate("/");
   };
+  const isAbsoluteUrl = (url) => url.startsWith("http");
 
   return (
     <div className="flex items-center gap-4 justify-center ml-3">
@@ -38,7 +40,11 @@ function Profile({ user }) {
           onClick={handleToggle}
         >
           <div className="w-10 rounded-full overflow-hidden">
-            <img src={user.img} alt="User Avatar" />
+            {isAbsoluteUrl(user.img) ? (
+              <img src={user.img} alt="User Avatar" />
+            ) : (
+              <img src={`${BACK_END_URL}${user.img}`} alt="User Avatar" />
+            )}
           </div>
         </div>
         {isOpen && (
