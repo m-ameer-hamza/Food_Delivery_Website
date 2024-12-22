@@ -3,9 +3,6 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useUserApi } from "../../../customHooks/useUserApi";
 import { useQuery } from "react-query";
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebook } from "react-icons/fa";
-import { IoLogoWhatsapp } from "react-icons/io";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
 function SignUp() {
