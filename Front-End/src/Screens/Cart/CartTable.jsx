@@ -208,6 +208,7 @@ function CartTable() {
                   onClick={() => {
                     setIsCheckout(true);
                   }}
+                  disabled={isLoading}
                 >
                   Checkout
                 </button>

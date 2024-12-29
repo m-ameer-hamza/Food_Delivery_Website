@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import { FaUserPen } from "react-icons/fa6";
 import { LuClipboardList } from "react-icons/lu";
@@ -8,9 +8,11 @@ import { clearUser } from "../../Redux/userSlice.js";
 import { cartClear } from "../../Redux/cartSlice.js";
 import { logout } from "../../Redux/authSlice.js";
 import { useNavigate } from "react-router-dom";
+import { BACK_END_URL } from "../../Global.js";
 function Profile({ user }) {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleToggle = () => {
@@ -21,24 +23,36 @@ function Profile({ user }) {
     setIsOpen(false);
   };
 
-  const handleLogout = () => {
-    dispatch(clearUser());
-    dispatch(logout());
-    dispatch(cartClear());
-    // navigate("/");
+  const handleLogout = async () => {
+    setIsLoading(true); // Show loading state
+    try {
+      await dispatch(clearUser());
+      await dispatch(logout());
+      await dispatch(cartClear());
+    } catch (error) {
+      console.error("Error during logout:", error);
+    } finally {
+      setIsLoading(false); // Hide loading state
+    }
   };
 
-  return (
+  const isAbsoluteUrl = (url) => url.startsWith("http");
+
+  return !isLoading ? (
     <div className="flex items-center gap-4 justify-center ml-3">
       <h2 className="text-lg font-bold">{user.name}</h2>
-      <div className="dropdown  dropdown-bottom mt-2 dropdown-end transition-all ease-in-out duration-300">
+      <div className="dropdown dropdown-bottom mt-2 dropdown-end transition-all ease-in-out duration-300">
         <div
           tabIndex={0}
           className="avatar cursor-pointer"
           onClick={handleToggle}
         >
           <div className="w-10 rounded-full overflow-hidden">
-            <img src={user.img} alt="User Avatar" />
+            {isAbsoluteUrl(user.img) ? (
+              <img src={user.img} alt="User Avatar" />
+            ) : (
+              <img src={`${BACK_END_URL}${user.img}`} alt="User Avatar" />
+            )}
           </div>
         </div>
         {isOpen && (
@@ -57,7 +71,6 @@ function Profile({ user }) {
             <li onClick={closeDropDown}>
               <div className="flex items-center gap-5 justify-around">
                 <span className="text-lg">Profile</span>
-
                 <FaUserPen size={25} />
               </div>
             </li>
@@ -78,6 +91,8 @@ function Profile({ user }) {
         )}
       </div>
     </div>
+  ) : (
+    <span className="loading loading-spinner loading-lg bg-green"></span>
   );
 }
 

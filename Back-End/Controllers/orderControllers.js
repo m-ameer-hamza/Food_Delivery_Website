@@ -4,6 +4,15 @@ import Order from "../Models/OrderModel.js";
 export const createOrder = async (req, res, next) => {
   try {
     const { orderItems, totalBillAmount } = req.body;
+
+    console.log(
+      "orderItems",
+      orderItems,
+      "totalBillAmount",
+      totalBillAmount,
+      "userEmail",
+      req.query.email
+    );
     //check if order items are present
     if (!orderItems || orderItems.length === 0 || !totalBillAmount) {
       throw new appError("No order items", 400);
@@ -16,7 +25,7 @@ export const createOrder = async (req, res, next) => {
 
     const order = new Order({
       orderItems: orderItems.map((item) => ({
-        menu_id: item.menu_id,
+        menu_id: item._id,
         quantity: item.quantity,
       })),
       totalBillAmount,
@@ -32,7 +41,10 @@ export const createOrder = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
-    next(new appError("Cannot create order", 400));
+    res.status(500).json({
+      message: "Internal server error",
+      error,
+    });
   }
 };
 
