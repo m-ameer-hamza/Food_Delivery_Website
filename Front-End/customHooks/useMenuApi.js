@@ -12,6 +12,7 @@ export function useMenuApi() {
       params: {
         page,
       },
+      timeout: 5000,
     });
     return response.data;
   };
