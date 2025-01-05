@@ -4,19 +4,23 @@ import dotenv from "dotenv";
 import { OAuth2Client } from "google-auth-library";
 import bcrypt from "bcrypt";
 
-//setting up the config file
 dotenv.config({ path: "../config.env" });
 const client = new OAuth2Client(process.env.CLIENT_ID_GOOGLE_SIGN_IN);
-
-//verify token from google
+// Verify token from Google
 async function verify(token) {
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: process.env.CLIENT_ID_GOOGLE_SIGN_IN,
-  });
-  const payload = ticket.getPayload();
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID, // Replace with your Web Client ID if needed
+    });
 
-  return payload;
+    const payload = ticket.getPayload();
+    console.log("Payload:", payload);
+    return payload;
+  } catch (error) {
+    console.error("Error verifying token:", error);
+    throw new Error("Token verification failed");
+  }
 }
 
 export const googleSignIn = async (req, res) => {
