@@ -13,11 +13,11 @@ export const authReducer = (state = initialAuthState, action) => {
         ...state,
         isAuthenticated: true,
       };
-    case LOGOUT:
-      return {
-        ...state,
-        isAuthenticated: false,
-      };
+    // case LOGOUT:
+    //   return {
+    //     ...state,
+    //     isAuthenticated: false,
+    //   };
 
     default:
       return state;

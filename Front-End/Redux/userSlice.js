@@ -13,13 +13,13 @@ export const userReducer = (state = initialUserState, action) => {
         email: action.payload.email,
         img: action.payload.img,
       };
-    case "CLEAR_USER":
-      return {
-        ...state,
-        name: "",
-        email: "",
-        img: "",
-      };
+    // case "CLEAR_USER":
+    //   return {
+    //     ...state,
+    //     name: "",
+    //     email: "",
+    //     img: "",
+    //   };
     default:
       return state;
   }

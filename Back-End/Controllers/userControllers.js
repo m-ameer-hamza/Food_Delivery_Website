@@ -15,7 +15,6 @@ async function verify(token) {
     });
 
     const payload = ticket.getPayload();
-    console.log("Payload:", payload);
     return payload;
   } catch (error) {
     console.error("Error verifying token:", error);

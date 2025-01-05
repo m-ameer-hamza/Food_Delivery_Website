@@ -35,11 +35,26 @@ const cartPersistConfig = {
 };
 
 // 4. Wrap reducers with `persistReducer` as needed
-const rootReducer = combineReducers({
-  auth: persistReducer(authPersistConfig, authReducer), // Encrypted storage for auth
-  user: persistReducer(userPersistConfig, userReducer), // Encrypted storage for user
-  cart: persistReducer(cartPersistConfig, cartReducer), // LocalStorage for cart
+
+const appReducer = combineReducers({
+  auth: persistReducer(authPersistConfig, authReducer),
+  user: persistReducer(userPersistConfig, userReducer),
+  cart: persistReducer(cartPersistConfig, cartReducer),
 });
+
+// Root reducer to handle LOGOUT
+const rootReducer = (state, action) => {
+  if (action.type === "LOGOUT") {
+    // Clear persisted storage
+    storage.removeItem("persist:auth");
+    storage.removeItem("persist:user");
+    storage.removeItem("persist:cart");
+
+    // Reset the Redux state
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 
 // 5. Create the store with the persisted root reducer
 const store = createStore(rootReducer);

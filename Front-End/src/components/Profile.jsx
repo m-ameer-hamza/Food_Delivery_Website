@@ -1,12 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { IoIosLogOut } from "react-icons/io";
 import { FaUserPen } from "react-icons/fa6";
 import { LuClipboardList } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { clearUser } from "../../Redux/userSlice.js";
-import { cartClear } from "../../Redux/cartSlice.js";
-import { logout } from "../../Redux/authSlice.js";
 import { useNavigate } from "react-router-dom";
 import { BACK_END_URL } from "../../Global.js";
 function Profile({ user }) {
@@ -23,12 +20,10 @@ function Profile({ user }) {
     setIsOpen(false);
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     setIsLoading(true); // Show loading state
     try {
-      await dispatch(clearUser());
-      await dispatch(logout());
-      await dispatch(cartClear());
+      dispatch({ type: "LOGOUT" });
     } catch (error) {
       console.error("Error during logout:", error);
     } finally {
@@ -75,17 +70,15 @@ function Profile({ user }) {
               </div>
             </li>
             <li>
-              <div className="flex items-center gap-5 justify-around">
-                <button
-                  onClick={() => {
-                    console.log("LogOut Button Clicked");
-                    handleLogout();
-                  }}
-                >
-                  <span className="text-lg">Logout</span>
-                </button>
+              <button
+                className="flex items-center gap-5 justify-around"
+                onClick={() => {
+                  handleLogout();
+                }}
+              >
+                <span className="text-lg">Logout</span>
                 <IoIosLogOut size={25} />
-              </div>
+              </button>
             </li>
           </ul>
         )}

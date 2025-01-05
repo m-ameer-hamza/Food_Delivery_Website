@@ -72,9 +72,9 @@ export const cartReducer = (state = initialStateCart, action) => {
       return state;
     }
 
-    case clearCart: {
-      return initialStateCart;
-    }
+    // case clearCart: {
+    //   return initialStateCart;
+    // }
 
     case deleteItem: {
       const productId = action.payload;
