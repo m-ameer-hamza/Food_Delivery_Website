@@ -5,8 +5,6 @@ import { useUserApi } from "../../../customHooks/authApi";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
-
-// import Loading from "../../components/Loading";
 function SignUp() {
   const [emailError, setEmailError] = useState(true);
   const [passError, setPassError] = useState(true);
@@ -19,23 +17,25 @@ function SignUp() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { signUpUser } = useUserApi();
+  const { createUser } = useUserApi();
 
   //email verification using google firebase query
-  const { isLoading, error, isSuccess } = useQuery(
-    "signUpUser",
-    () => signUpUser(userData.email, userData.password),
-    {
-      enabled: runQuery,
-    }
-  );
-
-  //error handling
-  useEffect(() => {
-    if (error) {
-      toast.error("Error during sign-up");
-    }
-  }, [error]);
+  const { isLoading } = useQuery("signUpUser", () => createUser(userData), {
+    enabled: runQuery && !!userData,
+    onError: (error) => {
+      if (error.message === "User already exists") {
+        toast.info("User already exists");
+      } else {
+        toast.error("Error during sign-up");
+        console.error("Error during sign-up:", error.message);
+      }
+      setRunQuery(false);
+    },
+    onSuccess: () => {
+      toast.success("Email verification sent");
+      setRunQuery(false);
+    },
+  });
 
   //check for errors before submit. Like user has not entered email or password
   useEffect(() => {
@@ -61,12 +61,6 @@ function SignUp() {
       setRunQuery(true);
     }
   };
-  //toast message for successful sign-up
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success("Email verification sent");
-    }
-  }, [isSuccess]);
 
   return (
     <>
@@ -90,10 +84,10 @@ function SignUp() {
               className={`input input-bordered ${
                 nameError ? "animate-shake" : ""
               }`}
-              {...register("name", {
+              {...register("username", {
                 required: {
                   value: true,
-                  message: "name required",
+                  message: "User name required",
                 },
                 pattern: {
                   value: /^[a-zA-Z]+$/,

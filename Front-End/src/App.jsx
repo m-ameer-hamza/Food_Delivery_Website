@@ -14,6 +14,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "../Redux/store.js";
 import PaymentSuccess from "./Screens/Checkout/PaymentSuccess.jsx";
 import PaymentFailure from "./Screens/Checkout/PaymentFaliure.jsx";
+import VerifyEmail from "./Screens/VerifyEmail.jsx";
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => {
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/success" element={<PaymentSuccess />} />
                 <Route path="/cancel" element={<PaymentFailure />} />
+                <Route path="/verifyEmail" element={<VerifyEmail />} />
                 <Route path="*" element={<h1>Not Found</h1>} />
               </Routes>
             </Layout>

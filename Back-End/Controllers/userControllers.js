@@ -93,6 +93,7 @@ export const createUser = async (req, res, next) => {
     });
     res.status(201).json({
       message: "User created successfully",
+      userId: newUser._id,
     });
   } catch (error) {
     console.log(error);
@@ -139,6 +140,36 @@ export const loginUser = async (req, res, next) => {
         email: user.email,
         img: user.img,
       },
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Internal server error",
+      error,
+    });
+  }
+};
+
+export const verifyEmail = async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    if (!userId) {
+      return res.status(400).json({
+        message: "User Id is required",
+      });
+    }
+    //find the user by userId
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+    //update the user verified status
+    user.verified = true;
+    await user.save();
+    res.status(204).json({
+      message: "User verified successfully",
     });
   } catch (error) {
     console.log(error);
