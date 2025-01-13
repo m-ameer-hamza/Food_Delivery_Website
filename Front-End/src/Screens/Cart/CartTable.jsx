@@ -12,7 +12,7 @@ import {
 import { useDispatch } from "react-redux";
 import Loading from "../../components/Loading.jsx";
 import { useQuery } from "react-query";
-import { usePaymentApi } from "../../../customHooks/paymentApi.js";
+import { usePaymentApi } from "../../../customHooks/usePaymentApi.js";
 
 function CartTable() {
   const cart = useSelector((state) => state.cart);

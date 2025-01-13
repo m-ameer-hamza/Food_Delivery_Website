@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
-import { useOrderApi } from "../../../customHooks/orderApi";
+import { useOrderApi } from "../../../customHooks/useOrderApi";
 import { useQuery } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
 import { cartClear } from "../../../Redux/cartSlice";

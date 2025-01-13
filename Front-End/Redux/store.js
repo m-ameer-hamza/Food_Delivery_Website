@@ -28,13 +28,12 @@ const userPersistConfig = {
   transforms: [encryptor], // Apply encryption
 };
 
-// 3. Persist Config for `cartReducer`
 const cartPersistConfig = {
   key: "cart", // Key under which the cart data will be stored
   storage, // Use localStorage for cart (no encryption)
 };
 
-// 4. Wrap reducers with `persistReducer` as needed
+// 3. Wrap reducers with `persistReducer` as needed
 
 const appReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),

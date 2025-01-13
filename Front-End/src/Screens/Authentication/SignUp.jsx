@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useUserApi } from "../../../customHooks/authApi";
+import { useAuthApi } from "../../../customHooks/useAuthApi";
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading";
@@ -25,7 +25,7 @@ function SignUp() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { createUser } = useUserApi();
+  const { createUser } = useAuthApi();
 
   //email verification using google firebase query
   const { isLoading } = useQuery("signUpUser", () => createUser(userData), {
@@ -212,7 +212,7 @@ function SignUp() {
           </div>
           <p className="text-center my-3">
             Already have Account?
-            <Link to="/" className="underline text-red ml-4">
+            <Link to="/login" className="underline text-red ml-4">
               Login Now
             </Link>
           </p>

@@ -3,7 +3,6 @@ import Menu from "./Menu";
 import { FaRegUser } from "react-icons/fa";
 import logo from "/logo.png";
 import { Link } from "react-router-dom";
-import Model from "./Model";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { calcTotalPrice } from "../../Redux/cartSlice";
@@ -24,14 +23,6 @@ function NavBar() {
   useEffect(() => {
     dispatch(calcTotalPrice());
   }, [cart.cartArray, dispatch]);
-
-  useEffect(() => {
-    console.log("User is: ", isAuthenticated);
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    console.log("User Data is:", userData);
-  }, [userData]);
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -168,16 +159,12 @@ function NavBar() {
           ) : (
             <>
               <button
-                onClick={() =>
-                  document.getElementById("my_modal_5").showModal()
-                }
+                onClick={() => navigate("/login")}
                 className="btn bg-green rounded-full px-8 text-white items-center gap-2"
               >
                 <FaRegUser size={17} />
                 Login
               </button>
-              {/* Login Model */}
-              <Model />
             </>
           )}
         </div>

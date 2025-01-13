@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { useUserApi } from "../../customHooks/authApi";
+import { useAuthApi } from "../../../customHooks/useAuthApi";
 import { toast } from "react-toastify";
 
 function VerifyEmail() {
-  const { verifyEmail } = useUserApi();
+  const { verifyEmail } = useAuthApi();
   const [runQuery, setRunQuery] = useState(false);
 
   const { isLoading } = useQuery("verifyEmail", verifyEmail, {

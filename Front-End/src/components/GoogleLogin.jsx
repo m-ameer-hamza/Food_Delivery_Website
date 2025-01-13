@@ -1,29 +1,41 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import { useUserApi } from "../../customHooks/useUserApi.js";
+import { useAuthApi } from "../../customHooks/useAuthApi.js";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { saveUser } from "../../Redux/userSlice.js";
 import { login } from "../../Redux/authSlice.js";
-
 import { auth, googleProvider, signInWithPopup } from "../../FireBaseConfig.js";
 import { GoogleAuthProvider } from "firebase/auth";
-
+import Loading from "./Loading.jsx";
 const GoogleSignIn = () => {
-  const { googleSignIn } = useUserApi();
+  const { googleSignIn } = useAuthApi();
   const [token, setToken] = useState(null);
   const [queryEnabled, setQueryEnabled] = useState(false);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { data, isError, isLoading, isSuccess } = useQuery(
+  const { isLoading } = useQuery(
     ["googleSignIn", token],
     () => {
       return googleSignIn(token);
     },
     {
       enabled: queryEnabled,
+      onSuccess: (res) => {
+        setQueryEnabled(false);
+        dispatch(saveUser(res.user));
+        dispatch(login());
+        toast.success("Login Successfully");
+        navigate("/", { replace: true });
+      },
+      onError: (error) => {
+        setQueryEnabled(false);
+        console.log(error);
+        toast.error("Google Sign In Failed!");
+      },
     }
   );
 
@@ -41,34 +53,17 @@ const GoogleSignIn = () => {
     }
   };
 
-  //runs when there is error
-  useEffect(() => {
-    if (isError) {
-      toast.error("Google Sign In Failed!");
-    }
-  }, [isError]);
-
-  //dispatch action to set data in user slice
-  useEffect(() => {
-    if (data) {
-      dispatch(saveUser(data.user));
-    }
-  }, [data, dispatch]);
-
-  //dispatch action to login user
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(login());
-    }
-  }, [isSuccess, dispatch]);
-
   return (
-    <button
-      className="btn btn-circle bg-blue-500 hover:bg-blue-600 text-white flex items-center justify-center w-14 h-14"
-      onClick={() => handleGoogleLogin()}
-    >
-      <FcGoogle size={28} /> {/* Adjust size of the icon */}
-    </button>
+    <>
+      {isLoading && <Loading />}
+      <button
+        type="button"
+        className="btn btn-circle shadow-xl hover:shadow-2xl transition-shadow duration-200"
+        onClick={() => handleGoogleLogin()}
+      >
+        <FcGoogle size={45} />
+      </button>
+    </>
   );
 };
 
