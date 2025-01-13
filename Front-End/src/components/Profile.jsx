@@ -42,11 +42,19 @@ function Profile({ user }) {
           className="avatar cursor-pointer"
           onClick={handleToggle}
         >
-          <div className="w-10 rounded-full overflow-hidden">
+          <div className="w-10 rounded-full">
             {isAbsoluteUrl(user.img) ? (
-              <img src={user.img} alt="User Avatar" />
+              <img
+                src={user.img}
+                alt="User Avatar"
+                className="w-full h-full object-cover"
+              />
             ) : (
-              <img src={`${BACK_END_URL}${user.img}`} alt="User Avatar" />
+              <img
+                src={`${BACK_END_URL}${user.img}`}
+                className="w-full h-full object-cover"
+                alt="User Avatar"
+              />
             )}
           </div>
         </div>
